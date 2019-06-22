@@ -5,9 +5,29 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-  <link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
   <title> Goals </title>
+
+  <style type="text/css">
+    
+    body {
+      font-family: 'Raleway', sans-serif;
+    }
+
+    button {
+      background-co`lor: white;
+      border: none;
+      color: black;
+      border-radius: 10px;
+    }
+
+    button:hover {
+      background-color: black;
+      color: white;
+    }
+
+  </style>
 
   {% block head_content %}
 
@@ -17,6 +37,35 @@
 </head>
 
 <body>
+
+  <div class="nav-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-pm">
+        <a class="navbar-brand" href="/login"> GOALZZ </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="/goals">  <i class="fas fa-clipboard-list"></i>  Goals</a> 
+                <!-- Routes -->
+              </li>
+              <li class="nav-item">
+                <a id="logout" class="nav-link" href="/logout"> <i class="fas fa-door-open"></i>  Sign out</a> 
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a id="login" class="nav-link" href="/login"> <i class="fas fa-door-closed"></i>  Sign in</a>
+              </li>
+            {% endif %}
+
+            
+          </ul>
+        </div>
+      </nav>
+    </div>
   
   {% block content %} 
 

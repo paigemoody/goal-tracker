@@ -153,11 +153,9 @@ def save_goals():
 
         goals_changed_str = ""
 
-        for i in range(0, len(updated_goals)-1):
+        for i in range(0, len(updated_goals)):
 
             goals_changed_str+= updated_goals[i]
-
-        goals_changed_str += f" and {updated_goals[-1]}" 
 
         return f"Updated: {goals_changed_str}"
 
@@ -190,7 +188,34 @@ def add_goal():
 def delete_goal():
     """Delete goal data to db."""
 
-    return "goal deleted!"
+    goal_id = request.form['id']
+
+    Goal.query.filter(Goal.goal_id == goal_id).delete()
+
+    db.session.commit()
+
+    return f"Goal deleted!"
+
+
+@app.route('/edit_goal', methods=["POST"])
+@login_required
+def edit_goal():
+    """Edit existing goal."""
+
+    goal_id = request.form['goalId']
+    goal_title = request.form['newTitle']
+    goal_notes = request.form['newNotes']
+
+    goal = Goal.query.filter(Goal.goal_id == goal_id).one()
+
+    goal.goal_title = goal_title
+
+    goal.notes = goal_notes
+
+    db.session.commit()
+
+    return f"Updated: {goal_title}!"
+
 
 if __name__ == "__main__":
 

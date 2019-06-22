@@ -1,9 +1,96 @@
 {% extends 'base.html' %}
 
+{% block head_content %}
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+    
+    #edit-form {
+        z-index: 2;
+        background-color: blue;
+        width: 80%; 
+        opacity: 0.9;
+        top: 20%;
+        color: white;
+        position: absolute;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        height: fit-content;
+        left: 10%;
+        display: none;
+
+        }
+
+    #goal-holder {
+        z-index: 0;
+        position: absolute;
+        width: 80%;
+        top: 20%;
+        left: 10%;
+    }
+
+</style>
+
+
+{% endblock %}
+
 {% block content %}
 
+<div id="edit-form" class="row">
+        <div class="row"> 
+            <div class="col-1 offset-5">
+                <div class="row"><i class="far fa-edit"></i></div><br>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-6 offset-5">
+
+                <div class="row">
+                    <input id="new-title" type="text">
+                </div><br>
+                <div class="row">
+                    <textarea id="new-notes"></textarea> 
+                </div>
+
+                <div class="row">
+                    <textarea id="goal_id" style="display: none;"></textarea> 
+                </div>
+                
+            </div>
+            
+        </div><br><br>
+        
+
+        <div class="row">
+            <div class="col-6 offset-5">
+
+                <div class="row">
+                    <button id="save-edit">Save changes</button> 
+                </div><br>
+                
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-6 offset-5">
+
+                <div class="row">
+                    <button id="cancel">Cancel</button> 
+                </div><br>
+                
+            </div>
+            
+        </div>
+        
+</div>
+
+
 <div id="main-content" class="container">
-    <div class="row">Goals:</div> 
 
     <div id="goal-holder">
         <!-- <div id="goals-list"> -->
@@ -14,10 +101,9 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="goal-title" id="{{goal.goal_id}}">
-
                                 
                                 {% if goal.complete == True %}
-                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox" checked></input> {{ goal.goal_title }}
+                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox" checked></input><text>{{ goal.goal_title }}</text>
 
                                 {% else%}
                                 <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox"></input> {{ goal.goal_title }}
@@ -28,12 +114,28 @@
                             
                         </div>
 
-                        <div class="col-2">
+                        <div class="col-6">
                             <div class="goal-notes" id="{{goal.goal_id}}">
-                            {{ goal.notes }}
-                            </div><button id="{{goal.goal_id}}" class="delete-goal-button" onclick="deleteGoal(event,'{{goal.goal_id}}')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            {{ goal.notes }} 
+
+                            <!-- <button id="{{goal.goal_id}}" class="delete-goal-button" onclick="deleteGoal(event,'{{goal.goal_id}}')"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
+                            </div>
+                        </div>
+
+                        <div class="col-1">
+                            <button 
+                            id="{{goal.goal_id}}" 
+                            class="edit-goal-button" 
+                            onclick="editGoal(event, '{{goal.goal_id}}')" > <i class="far fa-edit"></i>
+                            </button>
                         </div>
                         
+                        <div class="col-1">
+                            <button id="{{goal.goal_id}}" class="delete-goal-button" onclick="deleteGoal(event,'{{goal.goal_id}}')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </div>
+
+
+
                     </div>
                 </div>
                 <br>
@@ -46,36 +148,47 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="goal-title" id="new">
-                                <button id="add-goal-button"><i class="fas fa-plus-circle"></i></button><input type="text" name="goal-title" placeholder="Goal" id="new-goal-title"></input>
+                                <input type="text" name="goal-title" placeholder="Goal" id="new-goal-title"></input>
                             </div>
                             
                         </div>
 
                         <div class="col-6">
                             <div class="goal-notes" id="new-goal">
-                                <input id="new-goal-notes" type="textfield" name="goal-notes" placeholder="Notes">
+                                <textarea id="new-goal-notes" name="goal-notes" placeholder="Notes"></textarea> 
                             </div>
-                        </div>                        
+                        </div> 
+
+                        <div class="col-1">
+                            <button id="add-goal-button"><i class="fas fa-save"></i>
+                            </button>
+                        </div>
+
                     </div>
             </div>
+        <br>
+
+    <div class="row">
+
+        <div class="col-3 offset-4">
+            <button 
+            id="update-goals"
+            onclick="updateGoals(event,'{{current_user.user_id}}')"
+            >
+            Save changes
+        </button>
+
+        </div>
+
+    </div>
     </div>
 
-        
-
-    
-
-
-    <br>
-    <button 
-        id="update-goals"
-        onclick="updateGoals(event,'{{current_user.user_id}}')"
-        >
-        Update Goals
-    </button>
-
-
-
     <script type="text/javascript">
+
+        $(function(){
+            $('#edit-form').hide()
+        });
+        
 
         function updateGoals(evt, curUser) {
             // get all goal ids, make list of all ids that are checked 
@@ -110,13 +223,22 @@
         // add new goal when add button is clicked 
         $('#add-goal-button').on('click', function(){
 
-            const goalData = {
-                title : $('#new-goal-title').val(),
-                notes : $('#new-goal-notes').val()
+            const newGoalTitle = $('#new-goal-title').val();
+            const newGoalNotes = $('#new-goal-notes').val();
+
+            if ((newGoalNotes.length + newGoalTitle.length) > 2){
+                const goalData = {
+                title : newGoalTitle,
+                notes : newGoalNotes
+                }
+                $.post('/add_goal', goalData, confirmAddGoal);
+
+            } 
+
+            else {
+                alert('Input too short.')
             }
-
-            $.post('/add_goal', goalData, confirmAddGoal);
-
+            
         })
 
         // alert user that changes have been saved
@@ -130,16 +252,56 @@
         // delete goal when associated button is clicked
 
         function deleteGoal(evt, goalId) {
-            $.post('/delete_goal', goalId, confirmDeleteGoal);
+
+            goalInfo = { id : goalId }
+            $.post('/delete_goal', goalInfo, confirmDeleteGoal);
         }
 
         function confirmDeleteGoal(confMessage) {
             alert(confMessage);
             location.reload();
-
         };
+
+
+        // change goal to text boxes on click of button
+
+        // function editGoal(evt, goalTitle, goalNotes, goalId) {
+
+        function editGoal(evt, goalId) {
+
+            $('#edit-form').show();
+
+            goalTitle = document.getElementById(goalId).getElementsByClassName("goal-title")[0].innerText;
+            goalNotes = document.getElementById(goalId).getElementsByClassName("goal-notes")[0].innerText;
+            
+            $('#new-title').val(goalTitle);
+            $('#new-notes').val(goalNotes);
+            $('#goal_id').val(goalId);
+        };
+
+        $('#cancel').on('click', function(){$('#edit-form').hide()})
+
+        $('#save-edit').on('click', function(){
+            // when edit is saved send goalid, new title and new notes to backend to be updated
+        
+            updates = {
+                goalId : $('#goal_id').val(),
+                newTitle :  $('#new-title').val(),
+                newNotes : $('#new-notes').val()
+            };
+
+            $.post('/edit_goal', updates, confirmEdits);
+
+        })
+
+        function confirmEdits(confMessage){
+            alert(confMessage);
+            location.reload();
+        }
 
     </script>
 </div>
+
+
 
 {% endblock %}
