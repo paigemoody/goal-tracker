@@ -129,16 +129,68 @@ def save_goals():
     """Update and save goals data to db."""
 
     user_id = request.form['userId']
-
-    print("\n\nuser:", user_id)
-
     goals_dict = json.loads(request.form['goals'])
 
-    print(goals_dict)
+    updated_goals = []
 
-    print(f"\n\n\n\nsaving {user_id}'s goals")
+    for goal in goals_dict:
+        if goal != 'new-goal':
 
-    return "OK!"
+            completed = goals_dict[goal]['complete']
+            goal_id = goal
+            # get goal object 
+            goal = Goal.query.filter(Goal.goal_id == goal_id).one()
+
+            if goal.complete != completed:
+
+                goal.complete = completed
+
+                db.session.commit()
+
+                updated_goals.append(goal.goal_title)
+
+    if len(updated_goals) > 0:
+
+        goals_changed_str = ""
+
+        for i in range(0, len(updated_goals)-1):
+
+            goals_changed_str+= updated_goals[i]
+
+        goals_changed_str += f" and {updated_goals[-1]}" 
+
+        return f"Updated: {goals_changed_str}"
+
+    else: 
+        return "Already up to date!"
+    
+
+@app.route('/add_goal', methods=["POST"])
+@login_required
+def add_goal():
+    """Add new goal data to db."""
+
+    goal_title = request.form['title']
+    goal_notes = request.form['notes']
+
+    goal = Goal(user_id=current_user.user_id,
+                goal_title=goal_title,
+                notes = goal_notes
+                )
+
+    # add to the session 
+    db.session.add(goal)
+    # commit data
+    db.session.commit()
+
+    return f"Added: {goal_title}!" 
+
+@app.route('/delete_goal', methods=["POST"])
+@login_required
+def delete_goal():
+    """Delete goal data to db."""
+
+    return "goal deleted!"
 
 if __name__ == "__main__":
 

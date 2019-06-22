@@ -2,69 +2,144 @@
 
 {% block content %}
 
-GOAL DASHBOARD
+<div id="main-content" class="container">
+    <div class="row">Goals:</div> 
+
+    <div id="goal-holder">
+        <!-- <div id="goals-list"> -->
+
+           {% for goal in current_user.goals%}
+               <div class="goal" id="{{goal.goal_id}}">
+
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="goal-title" id="{{goal.goal_id}}">
+
+                                
+                                {% if goal.complete == True %}
+                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox" checked></input> {{ goal.goal_title }}
+
+                                {% else%}
+                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox"></input> {{ goal.goal_title }}
+                                    
+                                {% endif %}
+                                
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-2">
+                            <div class="goal-notes" id="{{goal.goal_id}}">
+                            {{ goal.notes }}
+                            </div><button id="{{goal.goal_id}}" class="delete-goal-button" onclick="deleteGoal(event,'{{goal.goal_id}}')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <br>
+           {% endfor %}
 
 
-<div id = "goals-list">
+           <!-- include space for new goal -->
+           <div class="goal" id="new-goal">
 
-       <div>{{ current_user.username }}'s Goals:</div> 
-       
-       {% for goal in current_user.goals%}
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="goal-title" id="new">
+                                <button id="add-goal-button"><i class="fas fa-plus-circle"></i></button><input type="text" name="goal-title" placeholder="Goal" id="new-goal-title"></input>
+                            </div>
+                            
+                        </div>
 
-       <div class="goal" id="{{goal.goal_id}}" >
-            <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox"></input> {{ goal.goal_title }}
-            <div>{{ goal.notes }} </div>
-        </div>
+                        <div class="col-6">
+                            <div class="goal-notes" id="new-goal">
+                                <input id="new-goal-notes" type="textfield" name="goal-notes" placeholder="Notes">
+                            </div>
+                        </div>                        
+                    </div>
+            </div>
+    </div>
 
-       {% endfor %}
-
-       <button 
-            id="update-goals"
-            onclick="updateGoals(event,'{{current_user.user_id}}')"
-            >
-            Update Goals
-       </button>
-</div>
-
-
-<script type="text/javascript">
-
-    function updateGoals(evt, curUser) {
-        // get all goal ids, make list of all ids that are checked 
-        // make list of all ids that are not checked 
-
-        // send list of checked and unchecked to backend for updating 
-        const goalsStatus = {
-            'userId': curUser,
-            'goals' : {}
-        }
-         goalBoxes = document.getElementsByClassName('goal-completeness-check') 
-
-        // look at all goals, if associated input box is clicked add completed
-        // data to goalStatus
-        for (i = 0; i < goalBoxes.length; i++) {
-
-                // get the value of the goal's checkbox
-                const goalBox = goalBoxes[i];
-                const goalId = goalBox.id;
-                const goalBoxStatus = goalBox.checked;
-                
-                goalsStatus.goals[goalId] = {}
-                
-                goalsStatus.goals[goalId]['complete'] = goalBoxStatus;
-                
-            };
-
-        goalsStatus.goals = JSON.stringify(goalsStatus.goals)
         
-        $.post('/save_goals', goalsStatus, confirmUpdateGoals);
-    }
-    
-    // alert user that changes have been saved
-    function confirmUpdateGoals(confMessage) {
-        alert('Goals saved!');
-    };
 
-</script>
+    
+
+
+    <br>
+    <button 
+        id="update-goals"
+        onclick="updateGoals(event,'{{current_user.user_id}}')"
+        >
+        Update Goals
+    </button>
+
+
+
+    <script type="text/javascript">
+
+        function updateGoals(evt, curUser) {
+            // get all goal ids, make list of all ids that are checked 
+            // make list of all ids that are not checked 
+            const goalsStatus = {
+                'userId': curUser,
+                'goals' : {}
+            }
+             goalBoxes = document.getElementsByClassName('goal-completeness-check') 
+            // look at all goals, if associated input box is clicked add completed
+            // data to goalStatus
+            for (i = 0; i < goalBoxes.length; i++) {
+                    // get the value of the goal's checkbox
+                    const goalBox = goalBoxes[i];
+                    const goalId = goalBox.id;
+                    const goalBoxStatus = goalBox.checked;
+                    
+                    goalsStatus.goals[goalId] = {}
+                    goalsStatus.goals[goalId]['complete'] = goalBoxStatus;
+                    
+                };
+
+            goalsStatus.goals = JSON.stringify(goalsStatus.goals)
+            $.post('/save_goals', goalsStatus, confirmUpdateGoals);
+        }
+        
+        // alert user that changes have been saved
+        function confirmUpdateGoals(confMessage) {
+            alert(confMessage);
+        };
+
+        // add new goal when add button is clicked 
+        $('#add-goal-button').on('click', function(){
+
+            const goalData = {
+                title : $('#new-goal-title').val(),
+                notes : $('#new-goal-notes').val()
+            }
+
+            $.post('/add_goal', goalData, confirmAddGoal);
+
+        })
+
+        // alert user that changes have been saved
+        function confirmAddGoal(confMessage) {
+            alert(confMessage);
+            location.reload();
+
+        };
+
+
+        // delete goal when associated button is clicked
+
+        function deleteGoal(evt, goalId) {
+            $.post('/delete_goal', goalId, confirmDeleteGoal);
+        }
+
+        function confirmDeleteGoal(confMessage) {
+            alert(confMessage);
+            location.reload();
+
+        };
+
+    </script>
+</div>
 
 {% endblock %}

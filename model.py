@@ -43,7 +43,7 @@ class Goal(db.Model):
 
     def __repr__(self):
         """provide helpful represeation for goal."""
-        return f"<User user_id={self.goal_title}>"
+        return f"<Goal goal_id={self.goal_id} goal_title={self.goal_title} goal_complete={self.complete}>"
 
     __tablename__ = "goals"
 
