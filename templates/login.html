@@ -4,4 +4,23 @@
 
 LOGIN PAGE
 
+<div class="login" id="login-form">
+        <form method="POST" action="/login_submission">
+          <br> <input type="text" name="username" placeholder="username" required/><br>
+          <br><input type="password" name="password" placeholder="password" required/><br>
+          <input class="form-button" type="submit" value="Sign in"/>
+        </form>
+        <br><br><br><br><br>
+        <button>Back </button><br>
+</div>
+
+
+<div class="register" id="register-form">
+        <form method="POST" action="/register" class="form-style-1">
+          <br><input type="text" name="username" placeholder="username"required/><br>
+          <br><input type="password" name="password"required placeholder="password"/><br>
+          <input class="form-button" type="submit" value="Sign up"/>
+        </form>
+</div> 
+
 {% endblock %}
