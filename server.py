@@ -175,10 +175,8 @@ def add_goal():
                 goal_title=goal_title,
                 notes = goal_notes
                 )
-
-    # add to the session 
+    
     db.session.add(goal)
-    # commit data
     db.session.commit()
 
     return f"Added: {goal_title}!" 
@@ -186,7 +184,7 @@ def add_goal():
 @app.route('/delete_goal', methods=["POST"])
 @login_required
 def delete_goal():
-    """Delete goal data to db."""
+    """Delete goal data in db."""
 
     goal_id = request.form['id']
 
@@ -223,8 +221,4 @@ if __name__ == "__main__":
     app.jinja_env.auto_reload = app.debug
     connect_to_db(app)
     app.run(port=5000, host='0.0.0.0')
-
-
-
-
 

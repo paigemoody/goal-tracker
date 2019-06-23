@@ -1,0 +1,54 @@
+body {
+      font-family: 'Raleway', sans-serif;
+    }
+
+button, .form-button {
+  background-color: white;
+  border: none;
+  color: black;
+  border-radius: 10px;
+}
+
+button:hover, .form-button:hover{
+  background-color: black;
+  color: white;
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+}
+
+#edit-form {
+        z-index: 2;
+        background-color: blue;
+        width: 80%; 
+        opacity: 0.9;
+        top: 20%;
+        color: white;
+        position: absolute;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        height: fit-content;
+        left: 10%;
+        display: none;
+
+}
+
+#goal-holder {
+    z-index: 0;
+    position: absolute;
+    width: 80%;
+    top: 20%;
+    left: 10%;
+}
+
+textarea {
+    width: -webkit-fill-available
+}
+

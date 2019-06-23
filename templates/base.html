@@ -9,44 +9,15 @@
 
   <title> Goals </title>
 
-  <style type="text/css">
-    
-    body {
-      font-family: 'Raleway', sans-serif;
-    }
+  <link rel="stylesheet" href="static/style/main.css">
 
-    button {
-      background-co`lor: white;
-      border: none;
-      color: black;
-      border-radius: 10px;
-    }
+{% block head_content %}
 
-    button:hover {
-      background-color: black;
-      color: white;
-    }
+{% endblock %}
 
-    #myVideo {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%; 
-      min-height: 100%;
-    }
-
-  </style>
-
-  {% block head_content %}
-
-  {% endblock %}
-
-  
 </head>
 
 <body>
-
-  
 
   <div class="nav-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-pm">
@@ -78,8 +49,6 @@
                 <a id="login" class="nav-link" href="/login"> <i class="fas fa-door-closed"></i>  Sign in</a>
               </li>
             {% endif %}
-
-            
           </ul>
         </div>
       </nav>
