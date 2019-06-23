@@ -45,3 +45,9 @@ postgresql
 **6.** Run server.
 
 	$ python3 server.py
+	
+### Note on security
+
+User passwords are hashed prior to saving in the database utilizing werkzeug security in order to make sure no raw passwords are ever stored. 
+
+The app uses POST requests to send user input data to the backend - onces deployed on https this will ensure privacy of personal data. 
