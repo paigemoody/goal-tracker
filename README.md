@@ -2,6 +2,9 @@
 
 A goal tracking app that allows users to view, save, and edit their personal goals.
 
+![goal-tracker](https://user-images.githubusercontent.com/25571355/59982178-0796de80-95c3-11e9-8831-00431b30cab1.gif)
+
+
 ## Tech Stack
 Python, PostgreSQL, SQLAlchemy, Flask, JavaScript, JQuery, Jinja, CSS
 
