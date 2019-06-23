@@ -3,9 +3,9 @@
 <head>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
   <title> Goals </title>
 
@@ -27,6 +27,14 @@
       color: white;
     }
 
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+
   </style>
 
   {% block head_content %}
@@ -38,9 +46,19 @@
 
 <body>
 
+  
+
   <div class="nav-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-pm">
-        <a class="navbar-brand" href="/login"> GOALZZ </a>
+
+        {% if current_user.username %}
+        <a class="navbar-brand" href="/login"> {{current_user.username.title()}}'s Goals </a>
+
+        {% else %}
+        <a class="navbar-brand" href="/login"> Goals </a>
+
+        {% endif %}
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -49,7 +67,7 @@
           <ul class="navbar-nav ml-auto">
             {% if current_user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="/goals">  <i class="fas fa-clipboard-list"></i>  Goals</a> 
+                <a class="nav-link" href="/goals">  <i class="fas fa-clipboard-list"></i></a> 
                 <!-- Routes -->
               </li>
               <li class="nav-item">

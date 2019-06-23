@@ -32,7 +32,13 @@
         left: 10%;
     }
 
+    textarea {
+        width: -webkit-fill-available
+    }
+
 </style>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 
 {% endblock %}
@@ -103,10 +109,10 @@
                             <div class="goal-title" id="{{goal.goal_id}}">
                                 
                                 {% if goal.complete == True %}
-                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox" checked></input><text>{{ goal.goal_title }}</text>
+                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox" checked></input> <text>{{ goal.goal_title }}</text>
 
                                 {% else%}
-                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox"></input> {{ goal.goal_title }}
+                                <input class="goal-completeness-check" id = "{{goal.goal_id}}" type="checkbox"> </input> {{ goal.goal_title }}
                                     
                                 {% endif %}
                                 
