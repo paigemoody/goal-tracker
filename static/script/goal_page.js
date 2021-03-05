@@ -63,7 +63,6 @@ $(function(){
 
 
         // delete goal when associated button is clicked
-
         function deleteGoal(evt, goalId) {
 
             goalInfo = { id : goalId }
@@ -77,8 +76,6 @@ $(function(){
 
 
         // change goal to text boxes on click of button
-
-        // function editGoal(evt, goalTitle, goalNotes, goalId) {
 
         function editGoal(evt, goalId) {
 

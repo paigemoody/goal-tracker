@@ -6,9 +6,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
   <title> Goals </title>
-
   <link rel="stylesheet" href="static/style/main.css">
 
 {% block head_content %}
@@ -39,7 +37,6 @@
             {% if current_user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="/goals">  <i class="fas fa-clipboard-list"></i></a> 
-                <!-- Routes -->
               </li>
               <li class="nav-item">
                 <a id="logout" class="nav-link" href="/logout"> <i class="fas fa-door-open"></i>  Sign out</a> 

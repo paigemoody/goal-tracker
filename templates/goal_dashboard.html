@@ -61,7 +61,6 @@
 <div id="main-content" class="container">
 
     <div id="goal-holder">
-        <!-- <div id="goals-list"> -->
 
            {% for goal in current_user.goals%}
                <div class="goal" id="{{goal.goal_id}}">
@@ -85,8 +84,6 @@
                         <div class="col-6">
                             <div class="goal-notes" id="{{goal.goal_id}}">
                             {{ goal.notes }} 
-
-                            <!-- <button id="{{goal.goal_id}}" class="delete-goal-button" onclick="deleteGoal(event,'{{goal.goal_id}}')"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
                             </div>
                         </div>
 
